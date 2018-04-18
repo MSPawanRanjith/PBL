@@ -9,11 +9,19 @@ app = Flask(__name__)
 client = MongoClient('mongodb://main:rcb#123@ds257627.mlab.com:57627/pbl_farming')
 db = client.pbl_farming
 
-'''Farmer Registeration : pushing data to mlab mongo database'''
-@app.route('/', methods=["GET","POST"])
-def farmer_registration():
+'''Index page route'''
+@app.route("/",methods=["GET","POST"])
+def index():
     if request.method=="GET":
         return render_template("index.html")
+
+
+
+'''Farmer Registeration : pushing data to mlab mongo database'''
+@app.route('/farmerRegistration', methods=["GET","POST"])
+def farmer_registration():
+    if request.method=="GET":
+        return render_template("farmer_reg.html")
     if request.method=="POST":
         survey_no=request.form["survey_no"].upper()
         farmer_name=request.form["name"].upper()
@@ -36,6 +44,13 @@ def farmer_registration():
         #adding to db
         farmer_details=db.farmer_details
 
+        #get the geojson data
+        survey_details=db.survey_details
+        geo_data=survey_details.find_one({"surveyno":request.form["survey_no"]})
+        agri_geodata=geo_data["coordinates"]
+        print(geo_data)
+
+
         #create the document for collection
         farmer_details_data={
             "surveyno":survey_no,
@@ -47,10 +62,11 @@ def farmer_registration():
             "irrigation":agri_irrigation,
             "ccrop":agri_ccrop,
             "pcrop":agri_pcrop,
+            "coordinates":agri_geodata,
             "no_of_cattles":agri_cattles
         }
         obj_id=farmer_details.insert_one(farmer_details_data).inserted_id;
         print(obj_id)
-        return render_template("index.html")
+        return render_template("farmer_reg.html")
 if __name__ == '__main__':
     app.run()
