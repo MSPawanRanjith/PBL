@@ -1,6 +1,6 @@
 from flask import *
 from pymongo import MongoClient
-
+import json
 '''Flask '''
 app = Flask(__name__)
 
@@ -8,13 +8,27 @@ app = Flask(__name__)
 
 client = MongoClient('mongodb://main:rcb#123@ds257627.mlab.com:57627/pbl_farming')
 db = client.pbl_farming
+farmer_details = db.farmer_details
+survey_details = db.survey_details
 
 '''Index page route'''
 @app.route("/",methods=["GET","POST"])
 def index():
     if request.method=="GET":
-        return render_template("index.html")
+        #get the drop down list
+        survey_no_list=[]
+        for survey_number in survey_details.find():
+            survey_no_list.append(survey_number["surveyno"])
 
+        return render_template("index.html", survey_no_list=survey_no_list)
+
+    if request.method=="POST":
+        survey_no_selected=request.form.get("survey_dropdown");
+        land_details=survey_details.find_one({"surveyno":survey_no_selected})
+        print(survey_no_selected + " is selected  and land details \n"+str(land_details))
+        land_details.pop('_id')
+        print(land_details)
+        return render_template("index.html",land_details=land_details["coordinates"])
 
 
 '''Farmer Registeration : pushing data to mlab mongo database'''
@@ -41,11 +55,11 @@ def farmer_registration():
         print(survey_no+farmer_age+farmer_name+farmer_phno+agri_area+agri_soil+agri_irrigation+agri_ccrop+agri_prev_crop+agri_cattles)
         print(".........................................................")
 
-        #adding to db
-        farmer_details=db.farmer_details
+
+
 
         #get the geojson data
-        survey_details=db.survey_details
+
         geo_data=survey_details.find_one({"surveyno":request.form["survey_no"]})
         agri_geodata=geo_data["coordinates"]
         print(geo_data)
