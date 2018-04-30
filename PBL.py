@@ -14,13 +14,12 @@ survey_details = db.survey_details
 '''Index page route'''
 @app.route("/",methods=["GET","POST"])
 def index():
+    survey_no_list = []
+    for survey_number in survey_details.find():
+        survey_no_list.append(survey_number["surveyno"])
     if request.method=="GET":
         #get the drop down list
-        survey_no_list=[]
-        for survey_number in survey_details.find():
-            survey_no_list.append(survey_number["surveyno"])
-
-        return render_template("index.html", survey_no_list=survey_no_list)
+       return render_template("index.html", survey_no_list=survey_no_list)
 
     if request.method=="POST":
         survey_no_selected=request.form.get("survey_dropdown");
@@ -28,7 +27,7 @@ def index():
         print(survey_no_selected + " is selected  and land details \n"+str(land_details))
         land_details.pop('_id')
         print(land_details)
-        return render_template("index.html",land_details=land_details["coordinates"])
+        return render_template("index.html",land_details=land_details["coordinates"],survey_no_list=survey_no_list)
 
 
 '''Farmer Registeration : pushing data to mlab mongo database'''
