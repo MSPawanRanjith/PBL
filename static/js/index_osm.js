@@ -1,5 +1,5 @@
 window.onload=function(){
-    alert("hey js is working");
+    //alert("hey js is working");
     var x=13.08387245;
     var y=77.5743201838385;
     var mymap = L.map('mapid').setView([x,y], 13);
@@ -12,11 +12,12 @@ window.onload=function(){
 	}).addTo(mymap);
 	L.marker([x,y]).addTo(mymap);
 
-	console.log("test");
+	console.log("test : "+htmlLand);
+	var land_details = htmlLand;
     console.log(land_details);
 
 	if(land_details!=""){
-	    L.polygon(land_details,{color:'pink'}).addTo(mymap);
+	    L.polygon(land_details.coordinates,{color:'blue'}).addTo(mymap);
     }
 	else{
 	    console.log("Its NULL");

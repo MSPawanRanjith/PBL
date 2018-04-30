@@ -3,7 +3,7 @@ from pymongo import MongoClient
 import json
 '''Flask '''
 app = Flask(__name__)
-
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 '''Mongo DB Connection'''
 
 client = MongoClient('mongodb://main:rcb#123@ds257627.mlab.com:57627/pbl_farming')
@@ -14,19 +14,28 @@ survey_details = db.survey_details
 '''Index page route'''
 @app.route("/",methods=["GET","POST"])
 def index():
+    #variables
     survey_no_list = []
     for survey_number in survey_details.find():
         survey_no_list.append(survey_number["surveyno"])
+
+    #get method
     if request.method=="GET":
         #get the drop down list
        return render_template("index.html", survey_no_list=survey_no_list)
 
+    #post method
     if request.method=="POST":
+
+        #get the survey no.and query the db accordingly
         survey_no_selected=request.form.get("survey_dropdown");
         land_details=survey_details.find_one({"surveyno":survey_no_selected})
         print(survey_no_selected + " is selected  and land details \n"+str(land_details))
         land_details.pop('_id')
         print(land_details)
+
+        #get the crop detail and query the db accordingly
+
         return render_template("index.html",land_details=land_details["coordinates"],survey_no_list=survey_no_list)
 
 
