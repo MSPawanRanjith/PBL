@@ -19,10 +19,14 @@ def index():
     for survey_number in survey_details.find():
         survey_no_list.append(survey_number["surveyno"])
 
+    crop_list=[]
+    for farrmer_entry in farmer_details.find():
+        crop_list.append(farrmer_entry["ccrop"])
+    crop_list=list(set(crop_list))
     #get method
     if request.method=="GET":
         #get the drop down list
-       return render_template("index.html", survey_no_list=survey_no_list)
+       return render_template("index.html", survey_no_list=survey_no_list,crop_list=crop_list)
 
     #post method
     if request.method=="POST":
@@ -36,7 +40,8 @@ def index():
 
         #get the crop detail and query the db accordingly
 
-        return render_template("index.html",land_details=land_details["coordinates"],survey_no_list=survey_no_list)
+
+        return render_template("index.html",land_details=land_details["coordinates"],survey_no_list=survey_no_list,crop_list=crop_list)
 
 
 '''Farmer Registeration : pushing data to mlab mongo database'''

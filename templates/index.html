@@ -67,6 +67,21 @@
 					<span class="focus-input100"></span>
 				</div>
 
+                <div class="wrap-input100">
+					<span class="label-input100">Crop</span><br>
+					<div class="form-group">
+                        <select class="form-control" name="crop_dropdown">Current Crop
+                            <span class="caret"></span>
+
+                            {% for crop in crop_list %}
+                                <li><option value="{{ crop }}"> &nbsp;&nbsp;{{ crop }}</option></li>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+					<span class="focus-input100"></span>
+				</div>
+
 {#				<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">#}
 {#					<span class="label-input100">Email</span>#}
 {#					<input class="input100" type="text" name="email" placeholder="Email addess...">#}
