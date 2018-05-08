@@ -42,10 +42,15 @@ def index():
         irrigation_list.append(farmer_entry["irrigation"])
     irrigation_list=list(set(irrigation_list))
 
+    farmer_list=[]
+    for farmer_entry in farmer_details.find():
+        farmer_list.append(farmer_entry["name"])
+    farmer_list=list(set(farmer_list))
+
     #get method
     if request.method=="GET":
         #get the drop down list
-       return render_template("index.html", survey_no_list=survey_no_list,crop_list=crop_list,soil_list=soil_list,irrigation_list=irrigation_list)
+       return render_template("index.html", survey_no_list=survey_no_list,crop_list=crop_list,soil_list=soil_list,irrigation_list=irrigation_list,farmer_list=farmer_list)
 
     #post method
     if request.method=="POST":
@@ -97,6 +102,18 @@ def index():
                 print(irrigation_selected + " is selected  and land details \n" + str(irrigation_land));
             print("Iriigation Land List passed to html ", irrigation_details_list)
             return render_template("irrigationresult.html", irrigation_details_list=irrigation_details_list)
+        elif request.form["btnSubmit"]=="btnFarmer":
+            #farmer submit is clicked
+            print("Farmer is clicked")
+            farmer_details_list = []
+            # get the soil type and query the db accordingly
+            farmer_selected = request.form.get("farmer_dropdown")
+            farmer_land_details = farmer_details.find({"name": farmer_selected}, {"coordinates": 1, "_id": 0})
+            for farmer_land in farmer_land_details:
+                farmer_details_list.append(farmer_land["coordinates"])
+                print(farmer_selected + " is selected  and land details \n" + str(farmer_land));
+            print("Iriigation Land List passed to html ", farmer_details_list)
+            return render_template("farmerresult.html", farmer_details_list=farmer_details_list)
     return render_template("index.html",crop_details_list='" "',land_details='" "',survey_no_list=survey_no_list,crop_list=crop_list)
 
 

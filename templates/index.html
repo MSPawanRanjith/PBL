@@ -150,6 +150,28 @@
 					<span class="focus-input100"></span>
 				</div>
 
+                <div class="wrap-input100">
+					<span class="label-input100">Farmers Name</span><br>
+                    <div class="row">
+
+                        <div class="col-md-8">
+					        <div class="form-group">
+                             <select class="form-control" name="farmer_dropdown">Farmer Name
+                                 <span class="caret"></span>
+                                 {% for farmer in farmer_list %}
+                                    <li><option value="{{ farmer }}"> &nbsp;&nbsp;{{ farmer }}</option></li>
+                                 {% endfor %}
+                             </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-success" value="btnFarmer" name="btnSubmit"> Submit </button>
+                        </div>
+                    </div>
+					<span class="focus-input100"></span>
+				</div>
+
 {#				<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">#}
 {#					<span class="label-input100">Email</span>#}
 {#					<input class="input100" type="text" name="email" placeholder="Email addess...">#}
