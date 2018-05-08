@@ -1,6 +1,11 @@
 from flask import *
 from pymongo import MongoClient
 import json
+import pyproj
+import shapely
+import shapely.ops as ops
+from shapely.geometry.polygon import Polygon
+from functools import partial
 
 '''Flask '''
 app = Flask(__name__)
@@ -116,7 +121,7 @@ def farmer_registration():
         agri_pcrop=agri_prev_crop.split(",")
         print(agri_pcrop)
         print(".........................................................")
-        print(survey_no+farmer_age+farmer_name+farmer_phno+agri_area+agri_soil+agri_irrigation+agri_ccrop+agri_prev_crop+agri_cattles)
+        print(survey_no+farmer_age+farmer_name+farmer_phno+agri_soil+agri_irrigation+agri_ccrop+agri_prev_crop+agri_cattles)
         print(".........................................................")
 
 
@@ -146,5 +151,44 @@ def farmer_registration():
         obj_id=farmer_details.insert_one(farmer_details_data).inserted_id;
         print(obj_id)
         return render_template("farmer_reg.html")
+
+'''Survey Addition Route: Pushing Survey no, coordinates and area'''
+@app.route("/surveyadd",methods=["POST","GET"])
+def survey_add():
+    if request.method=="GET":
+        return render_template("surveyadd.html")
+    if request.method=="POST":
+        survey_number = request.form["survey_no"].upper()
+        geo_coordinates = request.form["co_ordinates"].upper()
+        print("------------------------------------------------------------------------------------------------")
+        print(survey_number + " " + geo_coordinates)
+        print("------------------------------------------------------------------------------------------------")
+        geo_coordinates_list = eval(geo_coordinates)
+        print(geo_coordinates_list)
+        print(geo_coordinates_list)
+        geom = Polygon(geo_coordinates_list)
+        geom_area = ops.transform(
+            partial(
+                pyproj.transform,
+                pyproj.Proj(init='EPSG:4326'),
+                pyproj.Proj(
+                    proj='aea',
+                    lat1=geom.bounds[1],
+                    lat2=geom.bounds[3])),
+            geom)
+        print(geom_area.area)  # area in square metres
+        land_area = (geom_area.area) * 0.000247105
+        print(land_area)  # area in acres
+
+        # area attributed is to be added to the database (not added currently)
+        land_details_data={
+            "surveyno":survey_number,
+            "coordinates":geo_coordinates_list,
+            "area":land_area
+        }
+        obj_id=survey_details.insert_one(land_details_data).inserted_id;
+        print(obj_id)
+        return render_template("surveyadd.html")
+
 if __name__ == '__main__':
     app.run()
