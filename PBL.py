@@ -1,15 +1,18 @@
 from flask import *
 from pymongo import MongoClient
 import json
+
 '''Flask '''
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-'''Mongo DB Connection'''
 
+
+'''Mongo DB Connection'''
 client = MongoClient('mongodb://main:rcb#123@ds257627.mlab.com:57627/pbl_farming')
 db = client.pbl_farming
 farmer_details = db.farmer_details
 survey_details = db.survey_details
+
 
 '''Index page route'''
 @app.route("/",methods=["GET","POST"])
@@ -23,6 +26,7 @@ def index():
     for farrmer_entry in farmer_details.find():
         crop_list.append(farrmer_entry["ccrop"])
     crop_list=list(set(crop_list))
+
     #get method
     if request.method=="GET":
         #get the drop down list
@@ -31,17 +35,26 @@ def index():
     #post method
     if request.method=="POST":
 
-        #get the survey no.and query the db accordingly
-        survey_no_selected=request.form.get("survey_dropdown");
-        land_details=survey_details.find_one({"surveyno":survey_no_selected})
-        print(survey_no_selected + " is selected  and land details \n"+str(land_details))
-        land_details.pop('_id')
-        print(land_details)
-
-        #get the crop detail and query the db accordingly
-
-
-        return render_template("index.html",land_details=land_details["coordinates"],survey_no_list=survey_no_list,crop_list=crop_list)
+        #check what submit btn is clicked
+        if request.form['btnSubmit']=="btnSurvey":
+            # get the survey no.and query the db accordingly
+            survey_no_selected = request.form.get("survey_dropdown")
+            land_details = survey_details.find_one({"surveyno": survey_no_selected})
+            print(survey_no_selected + " is selected  and land details \n" + str(land_details))
+            land_details.pop('_id')
+            print(land_details)
+            return render_template("landresult.html", land_details=land_details["coordinates"])
+        elif request.form['btnSubmit']=="btnCrop":
+            print("crop is clicked")
+            crop_land_list=[]
+            #get the crop name and query the db accordingly
+            crop_selected=request.form.get("crop_dropdown")
+            crop_land_details=farmer_details.find({"ccrop":crop_selected},{"coordinates":1,"_id":0})
+            for crop_land in crop_land_details:
+                crop_land_list.append(crop_land["coordinates"])
+                print(crop_selected + " is selected  and land details \n" + str(crop_land));
+            return render_template("index.html",land_details='" "',crop_details_list=crop_land_list, survey_no_list=survey_no_list, crop_list=crop_list)
+    return render_template("index.html",crop_details_list='" "',land_details='" "',survey_no_list=survey_no_list,crop_list=crop_list)
 
 
 '''Farmer Registeration : pushing data to mlab mongo database'''

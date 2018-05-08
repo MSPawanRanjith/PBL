@@ -52,90 +52,16 @@
 
 	<div class="container-contact100">
 		<div class="contact100-map" id="mapid" data-pin="images/icons/map-marker.png" data-scrollwhell="0" data-draggable="1"></div>
-
-
-
-
-		<div class="wrap-contact100">
-			<form class="contact100-form" action="{{ url_for("index")}}" method="POST">
-
-
-				<div class="wrap-input100">
-					<span class="label-input100">SurveyNo</span><br>
-                    <div class="row">
-
-                        <div class="col-md-8">
-                            <div class="form-group ">
-                                <select class="form-control" name="survey_dropdown">Survey No.
-                                <span class="caret"></span>
-                                   {% for survey_no in survey_no_list %}
-                                      <li><option value="{{ survey_no }}"> &nbsp;&nbsp;{{ survey_no }}</option></li>
-                                   {% endfor %}
-                                 </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <button type="submit" class="btn btn-success" value="btnSurvey" name="btnSubmit"> Submit </button>
-                        </div>
+        <div class="wrap-contact100">
+            <div class="row">
+                <div class="col-md-2">
+                    <button onclick="window.history.back()" class="btn btn-warning"  name="btnBack"><span class="-caret-left"></span> Back </button>
                 </div>
-					<span class="focus-input100"></span>
-				</div>
+            </div>
+            <h1>We will display the tool tip contents and else</h1>
 
+        </div>
 
-
-                <div class="wrap-input100">
-					<span class="label-input100">Crop</span><br>
-                    <div class="row">
-
-                        <div class="col-md-8">
-					        <div class="form-group">
-                             <select class="form-control" name="crop_dropdown">Current Crop
-                                 <span class="caret"></span>
-                                 {% for crop in crop_list %}
-                                    <li><option value="{{ crop }}"> &nbsp;&nbsp;{{ crop }}</option></li>
-                                 {% endfor %}
-                             </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <button type="submit" class="btn btn-success" value="btnCrop" name="btnSubmit"> Submit </button>
-                        </div>
-                    </div>
-					<span class="focus-input100"></span>
-				</div>
-
-{#				<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">#}
-{#					<span class="label-input100">Email</span>#}
-{#					<input class="input100" type="text" name="email" placeholder="Email addess...">#}
-{#					<span class="focus-input100"></span>#}
-{#				</div>#}
-{##}
-{#				<div class="wrap-input100">#}
-{#					<span class="label-input100">Phone</span>#}
-{#					<input class="input100" type="text" name="phone" placeholder="Phone Number...">#}
-{#					<span class="focus-input100"></span>#}
-{#				</div>#}
-{##}
-{#				<div class="wrap-input100 validate-input" data-validate = "Message is required">#}
-{#					<span class="label-input100">Message</span>#}
-{#					<textarea class="input100" name="message" placeholder="Questions/Comments..."></textarea>#}
-{#					<span class="focus-input100"></span>#}
-{#				</div>#}
-
-				<div class="container-contact100-form-btn">
-					<div class="wrap-contact100-form-btn">
-						<div class="contact100-form-bgbtn"></div>
-						<button class="contact100-form-btn" type="submit">
-							SUBMIT
-						</button>
-
-					</div>
-				</div>
-
-			</form>
-		</div>
     </div>
 
 
