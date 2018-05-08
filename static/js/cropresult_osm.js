@@ -1,5 +1,5 @@
 window.onload=function(){
-    alert("hey js is working");
+    //alert("hey js is working");
     var x=13.08387245;
     var y=77.5743201838385;
     var mymap = L.map('mapid').setView([x,y], 14);

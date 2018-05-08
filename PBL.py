@@ -86,12 +86,12 @@ def index():
             irrigation_details_list = []
             # get the soil type and query the db accordingly
             irrigation_selected = request.form.get("irrigation_dropdown")
-            irrigation_details = farmer_details.find({"soil_type": irrigation_selected}, {"coordinates": 1, "_id": 0})
+            irrigation_details = farmer_details.find({"irrigation": irrigation_selected}, {"coordinates": 1, "_id": 0})
             for irrigation_land in irrigation_details:
                 irrigation_details_list.append(irrigation_land["coordinates"])
                 print(irrigation_selected + " is selected  and land details \n" + str(irrigation_land));
-            print("Crop Land List passed to html ", irrigation_details_list)
-            return render_template("soilresult.html", irrigation_details_list=irrigation_details_list)
+            print("Iriigation Land List passed to html ", irrigation_details_list)
+            return render_template("irrigationresult.html", irrigation_details_list=irrigation_details_list)
     return render_template("index.html",crop_details_list='" "',land_details='" "',survey_no_list=survey_no_list,crop_list=crop_list)
 
 
@@ -105,7 +105,7 @@ def farmer_registration():
         farmer_name=request.form["name"].upper()
         farmer_age=request.form["age"].upper()
         farmer_phno=request.form["phone"].upper()
-        agri_area=request.form["area"].upper()
+        #agri_area=request.form["area"].upper()
         agri_soil=request.form["soil_type"].upper()
         agri_irrigation=request.form["irrigation_type"].upper()
         agri_ccrop=request.form["current_crop"].upper()
@@ -135,7 +135,7 @@ def farmer_registration():
             "name":farmer_name,
             "age":farmer_age,
             "phone_no":farmer_phno,
-            "area":agri_area,
+            #"area":agri_area,
             "soil_type":agri_soil,
             "irrigation":agri_irrigation,
             "ccrop":agri_ccrop,

@@ -9,15 +9,15 @@ window.onload=function(){
 	}).addTo(mymap);
 	L.marker([x,y]).addTo(mymap);
 
-	console.log("test : "+htmlSoilLand);
-	var soil_land_details = htmlSoilLand;
-    console.log("Soil details : "+soil_land_details.coordinates[0]);
-    var len=soil_land_details.coordinates.length;
-    console.log("Soil details length : "+len);
-    if(soil_land_details!=""){
+	console.log("test : "+htmlIrrigationLand);
+	var irrigation_land_details = htmlIrrigationLand;
+    console.log("irrigation details : "+irrigation_land_details.coordinates[0]);
+    var len=irrigation_land_details.coordinates.length;
+    console.log("irrigation details length : "+len);
+    if(irrigation_land_details!=""){
         for(var i=0;i<len;i++)
         {
-            L.polygon(soil_land_details.coordinates[i], {color: 'black'}).addTo(mymap);
+            L.polygon(irrigation_land_details.coordinates[i], {color: 'blue'}).addTo(mymap);
         }
     }
     else{

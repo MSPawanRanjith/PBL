@@ -17,7 +17,7 @@ window.onload=function(){
     console.log(land_details);
 
 	if(land_details!=""){
-	    L.polygon(land_details.coordinates,{color:'blue'}).addTo(mymap);
+	    L.polygon(land_details.coordinates,{color:'orange'}).addTo(mymap);
     }
 	else{
 	    console.log("Its NULL");
