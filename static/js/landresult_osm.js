@@ -7,8 +7,19 @@ window.onload=function(){
 		maxZoom: 18,
 		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
 			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-			'Imagery <a href="http://mapbox.com">Mapbox</a>',
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 		id: 'mapbox.streets'
 	}).addTo(mymap);
 	L.marker([x,y]).addTo(mymap);
+
+	console.log("test : "+htmlLand);
+	var land_details = htmlLand;
+    console.log(land_details);
+
+	if(land_details!=""){
+	    L.polygon(land_details.coordinates,{color:'blue'}).addTo(mymap);
+    }
+	else{
+	    console.log("Its NULL");
+    }
 }

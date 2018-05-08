@@ -27,16 +27,28 @@ def index():
         crop_list.append(farrmer_entry["ccrop"])
     crop_list=list(set(crop_list))
 
+    soil_list=[]
+    for farmer_entry in farmer_details.find():
+        soil_list.append(farmer_entry["soil_type"])
+    soil_list=list(set(soil_list))
+
+    irrigation_list=[]
+    for farmer_entry in farmer_details.find():
+        irrigation_list.append(farmer_entry["irrigation"])
+    irrigation_list=list(set(irrigation_list))
+
     #get method
     if request.method=="GET":
         #get the drop down list
-       return render_template("index.html", survey_no_list=survey_no_list,crop_list=crop_list)
+       return render_template("index.html", survey_no_list=survey_no_list,crop_list=crop_list,soil_list=soil_list,irrigation_list=irrigation_list)
 
     #post method
     if request.method=="POST":
 
         #check what submit btn is clicked
         if request.form['btnSubmit']=="btnSurvey":
+            #Survey submit is clicked
+            print("Survey is clicked")
             # get the survey no.and query the db accordingly
             survey_no_selected = request.form.get("survey_dropdown")
             land_details = survey_details.find_one({"surveyno": survey_no_selected})
@@ -45,6 +57,7 @@ def index():
             print(land_details)
             return render_template("landresult.html", land_details=land_details["coordinates"])
         elif request.form['btnSubmit']=="btnCrop":
+            #crop submit btn implementation
             print("crop is clicked")
             crop_land_list=[]
             #get the crop name and query the db accordingly
@@ -53,7 +66,32 @@ def index():
             for crop_land in crop_land_details:
                 crop_land_list.append(crop_land["coordinates"])
                 print(crop_selected + " is selected  and land details \n" + str(crop_land));
-            return render_template("index.html",land_details='" "',crop_details_list=crop_land_list, survey_no_list=survey_no_list, crop_list=crop_list)
+            print("Crop Land List passed to html ",crop_land_list)
+            return render_template("cropresult.html",crop_details_list=crop_land_list)
+        elif request.form['btnSubmit']=="btnSoil":
+            #soil submit is clicked
+            print("Soil is clicked")
+            soil_details_list=[]
+            # get the soil type and query the db accordingly
+            soil_selected = request.form.get("soil_dropdown")
+            soil_details = farmer_details.find({"soil_type": soil_selected}, {"coordinates": 1, "_id": 0})
+            for soil_land in soil_details:
+                soil_details_list.append(soil_land["coordinates"])
+                print(soil_selected + " is selected  and land details \n" + str(soil_land));
+            print("Crop Land List passed to html ", soil_details_list)
+            return render_template("soilresult.html", soil_details_list=soil_details_list)
+        elif request.form['btnSubmit']=="btnIrrigation":
+            #irrigation submit is clicked
+            print("Irrigation is clicked")
+            irrigation_details_list = []
+            # get the soil type and query the db accordingly
+            irrigation_selected = request.form.get("irrigation_dropdown")
+            irrigation_details = farmer_details.find({"soil_type": irrigation_selected}, {"coordinates": 1, "_id": 0})
+            for irrigation_land in irrigation_details:
+                irrigation_details_list.append(irrigation_land["coordinates"])
+                print(irrigation_selected + " is selected  and land details \n" + str(irrigation_land));
+            print("Crop Land List passed to html ", irrigation_details_list)
+            return render_template("soilresult.html", irrigation_details_list=irrigation_details_list)
     return render_template("index.html",crop_details_list='" "',land_details='" "',survey_no_list=survey_no_list,crop_list=crop_list)
 
 
@@ -86,7 +124,7 @@ def farmer_registration():
 
         #get the geojson data
 
-        geo_data=survey_details.find_one({"surveyno":request.form["survey_no"]})
+        geo_data=survey_details.find_one({"surveyno":survey_no})
         agri_geodata=geo_data["coordinates"]
         print(geo_data)
 

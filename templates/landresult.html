@@ -34,19 +34,15 @@
 <meta charset="utf-8"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="">
 <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
 
-<script src="static/js/index_osm.js"></script>
+<script src="static/js/landresult_osm.js"></script>
 
 <body>
 
 <script type="text/javascript">
 
         var htmlLand=JSON.parse('{"coordinates":{{ land_details }}}');
+        // alert({{ land_details }});
 
-
-   // alert({{ land_details }});
-   // alert(htmlLand);
-    console.log({{ crop_details_list }})
-    alert({{ crop_details_list }})
 </script>
 
 
@@ -98,7 +94,7 @@
   gtag('config', 'UA-23581568-13');
 </script>
 
-{#<script type="text/javascript" src="static/js/index_osm.js"></script>#}
+{#<script type="text/javascript" src="static/js/landresult_osm.js"></script>#}
 
 </body>
 </html>
