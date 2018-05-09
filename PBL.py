@@ -27,6 +27,8 @@ def index():
     for survey_number in survey_details.find():
         survey_no_list.append(survey_number["surveyno"])
     survey_no_list.sort()
+
+
     crop_list=[]
     for farrmer_entry in farmer_details.find():
         crop_list.append(farrmer_entry["ccrop"])
@@ -90,7 +92,16 @@ def index():
                 crop_land_list.append(crop_land["coordinates"])
                 print(crop_selected + " is selected  and land details \n" + str(crop_land));
             print("Crop Land List passed to html ",crop_land_list)
-            return render_template("cropresult.html",crop_details_list=crop_land_list)
+            #crop side bar details
+            try:
+                crop_side_list=[]
+                crop_side_details=farmer_details.find({"ccrop":crop_selected},{"_id":0,"coordinates":0})
+                for crop_side in crop_side_details:
+                    crop_side_list.append(crop_side)
+                print("Crop Side Details : ",crop_side_list)
+            except TypeError:
+                print("Crop doesnt exist")
+            return render_template("cropresult.html",crop_details_list=crop_land_list,crop_side_list=crop_side_list)
         elif request.form['btnSubmit']=="btnSoil":
             #soil submit is clicked
             print("Soil is clicked")
@@ -161,6 +172,7 @@ def farmer_registration():
 
         geo_data=survey_details.find_one({"surveyno":survey_no})
         agri_geodata=geo_data["coordinates"]
+        agri_area=geo_data["area"]
         print(geo_data)
 
 
@@ -170,7 +182,7 @@ def farmer_registration():
             "name":farmer_name,
             "age":farmer_age,
             "phone_no":farmer_phno,
-            #"area":agri_area,
+            "area":agri_area,
             "soil_type":agri_soil,
             "irrigation":agri_irrigation,
             "ccrop":agri_ccrop,

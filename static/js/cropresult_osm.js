@@ -14,10 +14,19 @@ window.onload=function(){
     console.log("Land details : "+crop_land_details.coordinates[0]);
     var len=crop_land_details.coordinates.length;
     console.log("Land details length : "+len);
+
+    console.log("Side details "+htmlSideCrop);
+    var side_details=htmlSideCrop;
+    var sideLen=side_details.length;
+    var polygonMarker=[]
+    console.log("Side details JS: "+side_details[0].area+side_details[1].name+" Len of side details : "+side_details.length);
+
     if(crop_land_details!=""){
         for(var i=0;i<len;i++)
         {
-            L.polygon(crop_land_details.coordinates[i], {color: 'green'}).addTo(mymap);
+            polygonMarker[i]=L.polygon(crop_land_details.coordinates[i], {color: 'green'}).addTo(mymap);
+            var popupContent='<p><b>Survey No. : '+side_details[i].surveyno +'</b><br>Name : '+side_details[i].name+'<br>Soil Type : '+side_details[i].soil_type+'<br>Area : '+side_details[i].area.toFixed(2)+'acr</p>';
+            polygonMarker[i].bindPopup(popupContent).openPopup();
         }
     }
     else{
