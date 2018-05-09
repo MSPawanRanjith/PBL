@@ -109,6 +109,12 @@
                     {% endfor %}
                 </tr>
                 <tr>
+                    <td>Previous Crop</td>
+                     {% for i in range(0,crop_side_list|length)%}
+                    <td>{{ crop_side_list[i]["pcrop"] }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
                     <td>Irrigation Type</td>
                      {% for i in range(0,crop_side_list|length)%}
                     <td>{{ crop_side_list[i]["irrigation"] }}</td>

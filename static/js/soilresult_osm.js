@@ -19,7 +19,7 @@ window.onload=function(){
     var side_details=htmlSideSoil;
     var sideLen=side_details.length;
     var polygonMarker=[]
-    console.log("Side details JS: "+side_details[0].area+side_details[1].name+" Len of side details : "+side_details.length);
+    //console.log("Side details JS: "+side_details[0].area+side_details[1].name+" Len of side details : "+side_details.length);
 
     if(soil_land_details!=""){
         for(var i=0;i<len;i++)

@@ -14,10 +14,18 @@ window.onload=function(){
     console.log("Farmer details : "+farmer_land_details.coordinates[0]);
     var len=farmer_land_details.coordinates.length;
     console.log("farmer details length : "+len);
+
+    console.log("Side details "+htmlSideFarmer);
+    var side_details=htmlSideFarmer;
+    var sideLen=side_details.length;
+    var polygonMarker=[]
+    //console.log("Side details JS: "+side_details[0].area+side_details[1].name+" Len of side details : "+side_details.length);
     if(farmer_land_details!=""){
         for(var i=0;i<len;i++)
         {
-            L.polygon(farmer_land_details.coordinates[i], {color: 'magenta'}).addTo(mymap);
+            polygonMarker[i]=L.polygon(farmer_land_details.coordinates[i], {color: 'magenta'}).addTo(mymap);
+            var popupContent='<p><b>Survey No. : '+side_details[i].surveyno +'</b><br>Name : '+side_details[i].name+'<br>Current Crop : '+side_details[i].ccrop+'<br>Area : '+side_details[i].area.toFixed(2)+'acr</p>';
+            polygonMarker[i].bindPopup(popupContent).openPopup();
         }
     }
     else{

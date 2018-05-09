@@ -135,7 +135,15 @@ def index():
                 print(irrigation_selected + " is selected  and land details \n" + str(irrigation_land));
             print("Iriigation Land List passed to html ", irrigation_details_list)
             #irrigation side details
-            return render_template("irrigationresult.html", irrigation_details_list=irrigation_details_list)
+            try:
+                irrigation_side_list=[]
+                irrigation_side_details=farmer_details.find({"irrigation":irrigation_selected},{"_id":0,"coordinates":0})
+                for irrigation_side in irrigation_side_details:
+                    irrigation_side_list.append(irrigation_side)
+                print("Irrigation Side Details : ",irrigation_side_list)
+            except TypeError:
+                print("Irrigation doesnt exist")
+            return render_template("irrigationresult.html", irrigation_details_list=irrigation_details_list,irrigation_side_list=irrigation_side_list)
         elif request.form["btnSubmit"]=="btnFarmer":
             #farmer submit is clicked
             print("Farmer is clicked")
@@ -147,7 +155,16 @@ def index():
                 farmer_details_list.append(farmer_land["coordinates"])
                 print(farmer_selected + " is selected  and land details \n" + str(farmer_land));
             print("Iriigation Land List passed to html ", farmer_details_list)
-            return render_template("farmerresult.html", farmer_details_list=farmer_details_list)
+            #farmer side details
+            try:
+                farmer_side_list=[]
+                farmer_side_details=farmer_details.find({"name":farmer_selected},{"_id":0,"coordinates":0})
+                for farmer_side in farmer_side_details:
+                    farmer_side_list.append(farmer_side)
+                print("Farmer Side Details : ",farmer_side_list)
+            except TypeError:
+                print("Farmer doesnt exist")
+            return render_template("farmerresult.html", farmer_details_list=farmer_details_list,farmer_side_list=farmer_side_list)
     return render_template("index.html",crop_details_list='" "',land_details='" "',survey_no_list=survey_no_list,crop_list=crop_list)
 
 

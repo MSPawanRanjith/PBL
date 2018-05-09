@@ -98,7 +98,7 @@
                 <tr>
                     <td>Area</td>
                      {% for i in range(0,soil_side_list|length)%}
-                    <td>{{"%0.2f"|format(soil_side_list[i]["area"]|float) }}</td>
+                    <td>{{"%0.2f"|format(soil_side_list[i]["area"]|float) }} acr.</td>
                     {% endfor %}
                 </tr>
                 <tr>
@@ -108,9 +108,15 @@
                     {% endfor %}
                 </tr>
                 <tr>
+                    <td>Previous Crop</td>
+                     {% for i in range(0,soil_side_list|length)%}
+                    <td>{{ soil_side_list[i]["pcrop"] }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
                     <td>Irrigation Type</td>
                      {% for i in range(0,soil_side_list|length)%}
-                    <td>{{ soil_side_list[i]["irrigation"] }} acr.</td>
+                    <td>{{ soil_side_list[i]["irrigation"] }} </td>
                     {% endfor %}
                 </tr>
                 </tbody>
