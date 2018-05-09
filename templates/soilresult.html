@@ -42,6 +42,7 @@
 
         var htmlSoilLand=JSON.parse('{"coordinates":{{ soil_details_list }}}');
         //alert(htmlSoilLand);
+        var htmlSideSoil=JSON.parse('{{ soil_side_list }}'.replace(/&#39;/g,'"'));
 </script>
 
 
@@ -57,7 +58,65 @@
                     <button onclick="window.history.back()" class="btn btn-warning"  name="btnBack"><span class="-caret-left"></span> Back </button>
                 </div>
             </div>
-            <h1>We will display the tool tip contents and else</h1>
+            <h1>Report</h1>
+            <br>
+            <font size="2">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Details</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Survey</td>
+                    {% for i in range(0,soil_side_list|length)%}
+                    <td>{{ soil_side_list[i]["surveyno"] }}</td>
+                    {% endfor %}
+                </tr>
+
+                <tr>
+                    <td>Name</td>
+                    {% for i in range(0,soil_side_list|length)%}
+                    <td>{{ soil_side_list[i]["name"] }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>Age</td>
+                    {% for i in range(0,soil_side_list|length)%}
+                    <td>{{ soil_side_list[i]["age"] }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>Phone No.</td>
+                    {% for i in range(0,soil_side_list|length)%}
+                    <td>{{ soil_side_list[i]["phone_no"] }}</td>
+                    {% endfor %}
+                </tr>
+
+                <tr>
+                    <td>Area</td>
+                     {% for i in range(0,soil_side_list|length)%}
+                    <td>{{"%0.2f"|format(soil_side_list[i]["area"]|float) }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>Current Crop</td>
+                    {% for i in range(0,soil_side_list|length)%}
+                    <td>{{ soil_side_list[i]["ccrop"] }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>Irrigation Type</td>
+                     {% for i in range(0,soil_side_list|length)%}
+                    <td>{{ soil_side_list[i]["irrigation"] }} acr.</td>
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+            </font>
+
 
         </div>
 		</div>

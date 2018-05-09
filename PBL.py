@@ -113,7 +113,16 @@ def index():
                 soil_details_list.append(soil_land["coordinates"])
                 print(soil_selected + " is selected  and land details \n" + str(soil_land));
             print("Crop Land List passed to html ", soil_details_list)
-            return render_template("soilresult.html", soil_details_list=soil_details_list)
+            #soil side bar details
+            try:
+                soil_side_list=[]
+                soil_side_details=farmer_details.find({"soil_type":soil_selected},{"_id":0,"coordinates":0})
+                for soil_side in soil_side_details:
+                    soil_side_list.append(soil_side)
+                print("Crop Side Details : ",soil_side_list)
+            except TypeError:
+                print("Soil doesnt exist")
+            return render_template("soilresult.html", soil_details_list=soil_details_list,soil_side_list=soil_side_list)
         elif request.form['btnSubmit']=="btnIrrigation":
             #irrigation submit is clicked
             print("Irrigation is clicked")
@@ -125,6 +134,7 @@ def index():
                 irrigation_details_list.append(irrigation_land["coordinates"])
                 print(irrigation_selected + " is selected  and land details \n" + str(irrigation_land));
             print("Iriigation Land List passed to html ", irrigation_details_list)
+            #irrigation side details
             return render_template("irrigationresult.html", irrigation_details_list=irrigation_details_list)
         elif request.form["btnSubmit"]=="btnFarmer":
             #farmer submit is clicked
