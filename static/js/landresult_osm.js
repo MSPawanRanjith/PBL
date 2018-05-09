@@ -16,8 +16,15 @@ window.onload=function(){
 	var land_details = htmlLand;
     console.log(land_details);
 
+    console.log("Side details "+htmlSideLand);
+    var side_details=htmlSideLand;
+    console.log("Side details JS: "+side_details.area+side_details.name);
+
+    var popupContent='<p><b>Survey No. :'+side_details.surveyno+'</b><br>Name : '+side_details.name+'<br>Soil Type : '+side_details.soil_type+'<br>Current Crop : '+side_details.ccrop+'<br>Area : '+side_details.area.toFixed(2)+'acr</p>';
+
 	if(land_details!=""){
-	    L.polygon(land_details.coordinates,{color:'orange'}).addTo(mymap);
+	    var polygonMarker=L.polygon(land_details.coordinates,{color:'orange'}).addTo(mymap);
+	    polygonMarker.bindPopup(popupContent).openPopup();
     }
 	else{
 	    console.log("Its NULL");

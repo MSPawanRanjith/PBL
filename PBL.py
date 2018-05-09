@@ -26,26 +26,30 @@ def index():
     survey_no_list = []
     for survey_number in survey_details.find():
         survey_no_list.append(survey_number["surveyno"])
-
+    survey_no_list.sort()
     crop_list=[]
     for farrmer_entry in farmer_details.find():
         crop_list.append(farrmer_entry["ccrop"])
     crop_list=list(set(crop_list))
+    crop_list.sort()
 
     soil_list=[]
     for farmer_entry in farmer_details.find():
         soil_list.append(farmer_entry["soil_type"])
     soil_list=list(set(soil_list))
+    soil_list.sort()
 
     irrigation_list=[]
     for farmer_entry in farmer_details.find():
         irrigation_list.append(farmer_entry["irrigation"])
     irrigation_list=list(set(irrigation_list))
+    irrigation_list.sort()
 
     farmer_list=[]
     for farmer_entry in farmer_details.find():
         farmer_list.append(farmer_entry["name"])
     farmer_list=list(set(farmer_list))
+    farmer_list.sort()
 
     #get method
     if request.method=="GET":
@@ -65,7 +69,16 @@ def index():
             print(survey_no_selected + " is selected  and land details \n" + str(land_details))
             land_details.pop('_id')
             print(land_details)
-            return render_template("landresult.html", land_details=land_details["coordinates"])
+            print(land_details["area"],"area of land")
+            #get the sidebar details from farmer_details
+            try:
+                land_side_details=farmer_details.find_one({"surveyno":survey_no_selected},{"_id":0,"coordinates":0,"area":0})
+                land_side_details["area"]=round(land_details["area"],2)
+                #land_side_details=str(json.dumps(land_side_details))
+                print("Land Side Details : ",land_side_details)
+            except TypeError:
+                print("Farmer doesnt exist")
+            return render_template("landresult.html", land_details=land_details["coordinates"],land_side_details=land_side_details)
         elif request.form['btnSubmit']=="btnCrop":
             #crop submit btn implementation
             print("crop is clicked")
@@ -198,13 +211,13 @@ def survey_add():
         print(land_area)  # area in acres
 
         # area attributed is to be added to the database (not added currently)
-        land_details_data={
+        '''land_details_data={
             "surveyno":survey_number,
             "coordinates":geo_coordinates_list,
             "area":land_area
         }
         obj_id=survey_details.insert_one(land_details_data).inserted_id;
-        print(obj_id)
+        print(obj_id)'''
         return render_template("surveyadd.html")
 
 if __name__ == '__main__':

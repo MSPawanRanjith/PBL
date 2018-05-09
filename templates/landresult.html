@@ -42,6 +42,10 @@
 
         var htmlLand=JSON.parse('{"coordinates":{{ land_details }}}');
         // alert({{ land_details }});
+        console.log(JSON.stringify('{{ land_side_details }}').replace(/&#39;/g,'"'));
+       // alert(JSON.stringify('{{ land_side_details }}'.replace(/&#34;/g,'"')));
+        var htmlSideLand=JSON.parse('{{ land_side_details }}'.replace(/&#39;/g,'"'));
+       // alert(htmlSideLand);
 
 </script>
 
@@ -54,8 +58,61 @@
                     <button onclick="window.history.back()" class="btn btn-warning"  name="btnBack"><span class="-caret-left"></span> Back </button>
                 </div>
             </div>
-            <h1>We will display the tool tip contents and else</h1>
+            <h1>Report</h1>
+            <br>
+            <font size="2">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Details</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Survey</td>
+                    <td>{{ land_side_details["surveyno"] }}</td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td>{{ land_side_details["name"] }}</td>
+                </tr>
+                <tr>
+                    <td>Age</td>
+                    <td>{{ land_side_details["age"] }}</td>
+                </tr>
+                <tr>
+                    <td>Phone No.</td>
+                    <td>{{ land_side_details["phone_no"] }}</td>
+                </tr>
 
+                <tr>
+                    <td>Area</td>
+                    <td>{{ land_side_details["area"] }} acr.</td>
+                </tr>
+                <tr>
+                    <td>Soil Type</td>
+                    <td>{{ land_side_details["soil"] }}</td>
+                </tr>
+                <tr>
+                    <td>Irrigation Type</td>
+                    <td>{{ land_side_details["irrigation"] }}</td>
+                </tr>
+                <tr>
+                    <td>Current Crop</td>
+                    <td>{{ land_side_details["ccrop"] }}</td>
+                </tr>
+                <tr>
+                    <td>Previous Crop</td>
+                    <td>{{ land_side_details["pcrop"] }}</td>
+                </tr>
+                <tr>
+                    <td>No. of Cattle</td>
+                    <td>{{ land_side_details["no_of_cattles"] }}</td>
+                </tr>
+                </tbody>
+            </table>
+            </font>
         </div>
 
     </div>
