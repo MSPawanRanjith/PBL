@@ -111,7 +111,7 @@ def index():
             soil_details = farmer_details.find({"soil_type": soil_selected}, {"coordinates": 1, "_id": 0})
             for soil_land in soil_details:
                 soil_details_list.append(soil_land["coordinates"])
-                print(soil_selected + " is selected  and land details \n" + str(soil_land));
+                print(soil_selected + " is selected  and land details \n" + str(soil_land))
             print("Crop Land List passed to html ", soil_details_list)
             #soil side bar details
             try:
@@ -153,7 +153,7 @@ def index():
             farmer_land_details = farmer_details.find({"name": farmer_selected}, {"coordinates": 1, "_id": 0})
             for farmer_land in farmer_land_details:
                 farmer_details_list.append(farmer_land["coordinates"])
-                print(farmer_selected + " is selected  and land details \n" + str(farmer_land));
+                print(farmer_selected + " is selected  and land details \n" + str(farmer_land))
             print("Iriigation Land List passed to html ", farmer_details_list)
             #farmer side details
             try:
@@ -165,6 +165,44 @@ def index():
             except TypeError:
                 print("Farmer doesnt exist")
             return render_template("farmerresult.html", farmer_details_list=farmer_details_list,farmer_side_list=farmer_side_list)
+        elif request.form["btnSubmit"] == "btnMulti":
+            # multi option query
+            print("multi option query is selected")
+            # main query dict and query result list
+            query_dict={}
+            multi_side_list = []
+            multi_detail_list=[]
+            # get all the parameters choosen
+            if request.form.get("survey_dropdown") != " ":
+                sel_land=request.form.get("survey_dropdown")
+                query_dict["surveyno"]=sel_land
+            if request.form.get("crop_dropdown") != " ":
+                sel_crop=request.form.get("crop_dropdown")
+                query_dict["ccrop"]=sel_crop
+            if request.form.get("soil_dropdown") != " ":
+                sel_soil=request.form.get("soil_dropdown")
+                query_dict["soil_type"]=sel_soil
+            if request.form.get("irrigation_dropdown") != " ":
+                sel_irrigation=request.form.get("irrigation_dropdown")
+                query_dict["irrigation"]=sel_irrigation
+            if request.form.get("farmer_dropdown") != " ":
+                sel_farmer=request.form.get("farmer_dropdown")
+                query_dict["name"] = sel_farmer
+            # check the details
+            print("Details collected : dict : ",query_dict)
+            # query the db accordingly
+            multi_side_details = farmer_details.find(query_dict, {"_id": 0})
+            for multi_side in multi_side_details:
+                multi_side_list.append(multi_side)
+                multi_detail_list.append(multi_side["coordinates"])
+            print("Farmer Side Details : ", multi_side_list)
+            if not multi_detail_list :
+                return  render_template("noresult.html")
+            else:
+                return render_template("multiresult.html", multi_details_list=multi_detail_list,multi_side_list=multi_side_list)
+
+
+
     return render_template("index.html",crop_details_list='" "',land_details='" "',survey_no_list=survey_no_list,crop_list=crop_list)
 
 

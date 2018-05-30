@@ -9,22 +9,22 @@ window.onload=function(){
 	}).addTo(mymap);
 	L.marker([x,y]).addTo(mymap);
 
-	console.log("test : "+htmlCropLand);
-	var crop_land_details = htmlCropLand;
-    console.log("Land details : "+crop_land_details.coordinates[0]);
-    var len=crop_land_details.coordinates.length;
+	console.log("test : "+htmlMultiLand);
+	var multi_land_details = htmlMultiLand;
+    console.log("Land details : "+multi_land_details.coordinates[0]);
+    var len=multi_land_details.coordinates.length;
     console.log("Land details length : "+len);
 
-    console.log("Side details "+htmlSideCrop);
-    var side_details=htmlSideCrop;
+    console.log("Side details "+htmlSideMulti);
+    var side_details=htmlSideMulti;
     var sideLen=side_details.length;
     var polygonMarker=[];
     //console.log("Side details JS: "+side_details[0].area+side_details[1].name+" Len of side details : "+side_details.length);
 
-    if(crop_land_details!=""){
+    if(multi_land_details!=""){
         for(var i=0;i<len;i++)
         {
-            polygonMarker[i]=L.polygon(crop_land_details.coordinates[i], {color: 'green', wieght:'10',fillOpacity:'0.4'}).addTo(mymap);
+            polygonMarker[i]=L.polygon(multi_land_details.coordinates[i], {color: 'cyan', wieght:'10',fillOpacity:'0.4'}).addTo(mymap);
             var popupContent='<p><b>Survey No. : '+side_details[i].surveyno +'</b><br>Name : '+side_details[i].name+'<br>Soil Type : '+side_details[i].soil_type+'<br>Area : '+side_details[i].area.toFixed(2)+'acr</p>';
             polygonMarker[i].bindPopup(popupContent).openPopup();
         }
